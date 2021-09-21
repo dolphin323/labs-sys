@@ -15,7 +15,7 @@ int main(int argc, char *argv[])
     exit(1);
   }
   char *label = argv[1];
-  char buff[++BUFF_SIZE];
+  char buff[BUFF_SIZE];
   int result, nread;
   fd_set inputs, testfds;
   struct timeval timeout;
