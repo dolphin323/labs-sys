@@ -11,11 +11,16 @@ int main(int argc, char *argv[])
   size_t BUFF_SIZE = 1024;
   if (argc < 2)
   {
-    printf("No label");
+    fprintf(stderr, "No label\n");
+    exit(1);
+  }
+  if (argc > 2)
+  {
+    fprintf(stderr, "Need only one label\n");
     exit(1);
   }
   char *label = argv[1];
-  char buff[++BUFF_SIZE];
+  char buff[BUFF_SIZE];
   int result, nread;
   fd_set inputs, testfds;
   struct timeval timeout;
@@ -31,10 +36,10 @@ int main(int argc, char *argv[])
     switch (result)
     {
     case 0:
-      printf("No data within five seconds.\n");
+      fprintf(stderr, "No data within five seconds.\n");
       break;
     case -1:
-      printf("Error at select");
+      fprintf(stderr, "Error at select\n");
       exit(EXIT_FAILURE);
     default:
       nread = read(STDIN_FILENO, buff, BUFF_SIZE);
@@ -42,7 +47,7 @@ int main(int argc, char *argv[])
       {
         buff[nread - 1] = '\0';
       }
-      printf("%s: '%s'\n", label, buff);
+      fprintf(stderr, "%s: '%s'\n", label, buff);
       break;
     }
   }

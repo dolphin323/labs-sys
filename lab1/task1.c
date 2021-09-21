@@ -11,12 +11,12 @@ int main(int argc, char *argv[])
 {
   if (argc < 3)
   {
-    printf("Missing files");
+    fprintf(stderr, "Missing files\n");
     exit(1);
   }
   if (argc != 3)
   {
-    printf("Need only two files %i", argc);
+    fprintf(stderr, "Need only two files\n");
     exit(1);
   }
   char *filenameForRead = argv[1];
