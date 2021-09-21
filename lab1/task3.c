@@ -6,40 +6,40 @@
 #include <unistd.h>
 #include <poll.h>
 
-const size_t BUFF_SIZE = 1024;
-
 int main(int argc, char *argv[])
 {
+  size_t BUFF_SIZE = 1024;
   if (argc < 2)
   {
-    printf("Missing label, exit");
+    printf("No label");
     exit(1);
   }
   char *label = argv[1];
   struct pollfd fds[1];
-  int retval, len;
+  int result, nread;
   char buff[BUFF_SIZE];
 
   while (1)
   {
     fds[0].fd = STDIN_FILENO;
     fds[0].events = POLLIN;
-    retval = poll(fds, 1, 5000);
-    if (retval == -1)
+    result = poll(fds, 1, 5000);
+    switch (result)
     {
+    case 0:
+      printf("No data within five seconds.\n");
+      break;
+    case -1:
       printf("Error at select");
       exit(EXIT_FAILURE);
-    }
-    else if (retval)
-    {
-      ssize_t readBytes = read(STDIN_FILENO, buff, BUFF_SIZE);
-      len = readBytes - 1;
-
+    default:
+      nread = read(STDIN_FILENO, buff, BUFF_SIZE);
+      if (buff[nread - 1] == '\n')
+      {
+        buff[nread - 1] = '\0';
+      }
       printf("%s: '%s'\n", label, buff);
-    }
-    else
-    {
-      printf("No data within five seconds.\n");
+      break;
     }
   }
   return 0;
