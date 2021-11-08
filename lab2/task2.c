@@ -69,7 +69,7 @@ void childProcess() {
     dup(0); 
 
     buff_length = sprintf(buff, "PID: %d, GID: %d, SID: %d\n", getpid(), getgid(), newSid);
-    fd = open("/Users/liza/webUnivers/labs-sys/lab2/test.log", O_WRONLY | O_CREAT | O_APPEND, 0644);
+    fd = open("/home/student/kp9102/labs-sys/lab2/test.log", O_WRONLY | O_CREAT | O_APPEND, 0644);
 
     if (fd == -1) {
       printf("Error while opening test.log for writing (from daemon)\n");
